@@ -10,7 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import com.google.common.io.Files;
 
-
 /**
  * This class demonstrates Selenium locator APIs to identify HTML elements.
  * 
@@ -79,24 +78,22 @@ public class SeleniumOperations {
 		/*
 		 * Identify button 'Create account' and click to submit using Selenium API.
 		 */
-		 WebElement createAccountBtn = driver.findElement(
-	                By.xpath("//button[@type='submit']"));
-	        System.out.println("Found 'Create account' button: " + createAccountBtn);
-	        createAccountBtn.click();
+		WebElement createAccountBtn = driver.findElement(By.xpath("//button[@type='submit']"));
+	    System.out.println("Found 'Create account' button: " + createAccountBtn);
+	    createAccountBtn.click();
 		
 		/*
 		 * Take screenshot using selenium API.
 		 */
-	        try {
-	            File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-	            File destFile = new File("D:/Acedemic/MSC - Deakin/2026 - T1/SIT707 - Software Quality and Testing/SIT707-2.1P/Screenshots/officeworks_registration.png");
-	            destFile.getParentFile().mkdirs();
-	            Files.copy(srcFile, destFile);
-	            System.out.println("Screenshot saved: " + destFile.getAbsolutePath());
-	        } catch (Exception e) {
-	            System.err.println("Failed to take screenshot: " + e.getMessage());
-	        }
-		
+        try {
+            File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File destFile = new File("D:/Acedemic/MSC - Deakin/2026 - T1/SIT707 - Software Quality and Testing/SIT707-2.1P/Screenshots/officeworks_registration.png");
+            destFile.getParentFile().mkdirs();
+            Files.copy(srcFile, destFile);
+            System.out.println("Screenshot saved: " + destFile.getAbsolutePath());
+        } catch (Exception e) {
+            System.err.println("Failed to take screenshot: " + e.getMessage());
+        }
 		
 		// Sleep a while
 		sleep(2);
@@ -130,15 +127,35 @@ public class SeleniumOperations {
 		WebElement username = driver.findElement(By.id("login"));
 		username.sendKeys("thisara-test");
 		
-        WebElement emailPrefCheckbox = driver.findElement(
-                By.id("user_signup[marketing_consent]"));
+
+        // ------------------------------------------------------------------
+        // Country/Region Select
+        //
+        // Step 1: Click the dropdown button using its exact id from the HTML.
+        // ------------------------------------------------------------------
+        WebElement countryButton = driver.findElement(By.id("country-dropdown-panel-button"));
+        System.out.println("Found country dropdown button: " + countryButton);
+        countryButton.click();
+
+ 
+        // Step 2: Type "Australia" into the filter input inside the dialog.
+        WebElement countryFilter = driver.findElement(By.id("country-dropdown-panel-filter"));
+        System.out.println("Found country filter input: " + countryFilter);
+        countryFilter.sendKeys("Australia");
+    
+ 
+        // Step 3: Click the Australia button using its data-value="AU" attribute.
+        WebElement australiaOption = driver.findElement(By.xpath("//button[@data-value='AU']"));
+        System.out.println("Found Australia option: " + australiaOption);
+        australiaOption.click();
+
+        WebElement emailPrefCheckbox = driver.findElement(By.id("user_signup[marketing_consent]"));
         System.out.println("Found email preference checkbox: " + emailPrefCheckbox);
         if (!emailPrefCheckbox.isSelected()) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", emailPrefCheckbox);
         }
         
-        WebElement createAccountBtn = driver.findElement(
-                By.xpath("//button[@data-target='signup-form.SignupButton']"));
+        WebElement createAccountBtn = driver.findElement(By.xpath("//button[@data-target='signup-form.SignupButton']"));
         System.out.println("Found 'Create account' button: " + createAccountBtn);
         createAccountBtn.click();
 	
