@@ -8,7 +8,7 @@ package web.service;
 public class LoginService {
 
 	private static final String VALID_USERNAME = "thisara";
-    private static final String VALID_PASSWORD = "thisara pass";
+    private static final String VALID_PASSWORD = "thisara_pass";
     private static final String VALID_DOB = "1995-02-16";
     
 	public static boolean login(String username, String password, String dob) {

@@ -11,7 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class LoginServiceTest {
 	
     private static final String CHROME_DRIVER_PATH =
-            "C:/Users/thisa/Downloads/Compressed/chromedriver-win64/chromedriver-win64/chromedriver.exe";
+            "C:/Users/thisa/Downloads/Compressed/New/chromedriver-win64/chromedriver-win64/chromedriver.exe";
  
     private static final String LOGIN_HTML_PATH =
             "file:///D:/Acedemic/MSC%20-%20Deakin/2026%20-%20T1/SIT707%20-%20Software%20Quality%20and%20Testing/Projects/SIT707/task7_1P_224785681/pages/login.html"; 
