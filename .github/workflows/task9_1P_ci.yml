@@ -16,7 +16,7 @@ on:
   pull_request:
     branches: [ "main" ]
     paths:
-      - 'task9_1P_224785681/**
+      - 'task9_1P_224785681/**'
       
 jobs:
   build:

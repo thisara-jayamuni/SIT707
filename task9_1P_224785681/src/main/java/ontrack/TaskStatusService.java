@@ -3,6 +3,7 @@ package ontrack;
 public class TaskStatusService {
 
 	public String getTaskStatus(String status) {
+		
         if (status == null || status.trim().isEmpty()) {
             return "Invalid task status.";
         }
