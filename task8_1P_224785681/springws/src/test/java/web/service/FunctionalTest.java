@@ -1,10 +1,13 @@
 package web.service;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class FunctionalTest {
@@ -37,6 +40,12 @@ public class FunctionalTest {
 		}
 	}
 
+	// Chrome's type="date" input ignores sendKeys in some locales; use JS instead
+	private void setDateValue(String name, String isoDate) {
+		WebElement field = driver.findElement(By.name(name));
+		((JavascriptExecutor) driver).executeScript("arguments[0].value = arguments[1]", field, isoDate);
+	}
+
 	// -----------------------------------------------------------------------
 	// Helper: perform login with your valid credentials
 	// -----------------------------------------------------------------------
@@ -45,7 +54,7 @@ public class FunctionalTest {
 		sleep(2);
 		driver.findElement(By.name("username")).sendKeys("thisara");
 		driver.findElement(By.name("passwd")).sendKeys("thisara_pass");
-		driver.findElement(By.name("dob")).sendKeys("1995-02-16");
+		setDateValue("dob", "1995-02-16");
 		driver.findElement(By.cssSelector("input[type='submit']")).click();
 		sleep(2);
 	}
@@ -75,8 +84,8 @@ public class FunctionalTest {
 	public void testValidLoginNavigatesToQ1() {
 		doLogin();
 		System.out.println("[TC-F01] URL: " + driver.getCurrentUrl());
-		assert driver.getCurrentUrl().contains("/q1")
-				: "Expected /q1 but got: " + driver.getCurrentUrl();
+		Assert.assertTrue("Expected /q1 but got: " + driver.getCurrentUrl(),
+				driver.getCurrentUrl().contains("/q1"));
 	}
 
 	// -----------------------------------------------------------------------
@@ -88,14 +97,14 @@ public class FunctionalTest {
 		sleep(2);
 		driver.findElement(By.name("username")).sendKeys("wronguser");
 		driver.findElement(By.name("passwd")).sendKeys("wrongpass");
-		driver.findElement(By.name("dob")).sendKeys("1990-01-01");
+		setDateValue("dob", "1990-01-01");
 		driver.findElement(By.cssSelector("input[type='submit']")).click();
 		sleep(2);
 		System.out.println("[TC-F02] URL: " + driver.getCurrentUrl());
-		assert driver.getCurrentUrl().contains("/login")
-				: "Expected to stay on /login";
-		assert driver.getPageSource().contains("Incorrect credentials.")
-				: "Expected error message";
+		Assert.assertTrue("Expected to stay on /login",
+				driver.getCurrentUrl().contains("/login"));
+		Assert.assertTrue("Expected error message",
+				driver.getPageSource().contains("Incorrect credentials."));
 	}
 
 	// -----------------------------------------------------------------------
@@ -108,8 +117,8 @@ public class FunctionalTest {
 		driver.findElement(By.cssSelector("input[type='submit']")).click();
 		sleep(2);
 		System.out.println("[TC-F03] URL: " + driver.getCurrentUrl());
-		assert driver.getCurrentUrl().contains("/login")
-				: "Expected to stay on /login";
+		Assert.assertTrue("Expected to stay on /login",
+				driver.getCurrentUrl().contains("/login"));
 	}
 
 	// -----------------------------------------------------------------------
@@ -120,8 +129,8 @@ public class FunctionalTest {
 		doLogin();
 		passQ1();
 		System.out.println("[TC-F04] URL: " + driver.getCurrentUrl());
-		assert driver.getCurrentUrl().contains("/q2")
-				: "Expected /q2 but got: " + driver.getCurrentUrl();
+		Assert.assertTrue("Expected /q2 but got: " + driver.getCurrentUrl(),
+				driver.getCurrentUrl().contains("/q2"));
 	}
 
 	// -----------------------------------------------------------------------
@@ -136,10 +145,10 @@ public class FunctionalTest {
 		driver.findElement(By.cssSelector("input[type='submit']")).click();
 		sleep(2);
 		System.out.println("[TC-F05] URL: " + driver.getCurrentUrl());
-		assert driver.getCurrentUrl().contains("/q1")
-				: "Expected to stay on /q1";
-		assert driver.getPageSource().contains("Wrong answer, try again.")
-				: "Expected error message";
+		Assert.assertTrue("Expected to stay on /q1",
+				driver.getCurrentUrl().contains("/q1"));
+		Assert.assertTrue("Expected error message",
+				driver.getPageSource().contains("Wrong answer, try again."));
 	}
 
 	// -----------------------------------------------------------------------
@@ -151,8 +160,8 @@ public class FunctionalTest {
 		passQ1();
 		passQ2();
 		System.out.println("[TC-F06] URL: " + driver.getCurrentUrl());
-		assert driver.getCurrentUrl().contains("/q3")
-				: "Expected /q3 but got: " + driver.getCurrentUrl();
+		Assert.assertTrue("Expected /q3 but got: " + driver.getCurrentUrl(),
+				driver.getCurrentUrl().contains("/q3"));
 	}
 
 	// -----------------------------------------------------------------------
@@ -168,10 +177,10 @@ public class FunctionalTest {
 		driver.findElement(By.cssSelector("input[type='submit']")).click();
 		sleep(2);
 		System.out.println("[TC-F07] URL: " + driver.getCurrentUrl());
-		assert driver.getCurrentUrl().contains("/q2")
-				: "Expected to stay on /q2";
-		assert driver.getPageSource().contains("Wrong answer, try again.")
-				: "Expected error message";
+		Assert.assertTrue("Expected to stay on /q2",
+				driver.getCurrentUrl().contains("/q2"));
+		Assert.assertTrue("Expected error message",
+				driver.getPageSource().contains("Wrong answer, try again."));
 	}
 
 	// -----------------------------------------------------------------------
@@ -188,8 +197,8 @@ public class FunctionalTest {
 		driver.findElement(By.cssSelector("input[type='submit']")).click();
 		sleep(2);
 		System.out.println("[TC-F08] Page: " + driver.getPageSource());
-		assert driver.getPageSource().contains("Congratulations")
-				: "Expected success message";
+		Assert.assertTrue("Expected success message",
+				driver.getPageSource().contains("Congratulations"));
 	}
 
 	// -----------------------------------------------------------------------
@@ -206,9 +215,9 @@ public class FunctionalTest {
 		driver.findElement(By.cssSelector("input[type='submit']")).click();
 		sleep(2);
 		System.out.println("[TC-F09] URL: " + driver.getCurrentUrl());
-		assert driver.getCurrentUrl().contains("/q3")
-				: "Expected to stay on /q3";
-		assert driver.getPageSource().contains("Wrong answer, try again.")
-				: "Expected error message";
+		Assert.assertTrue("Expected to stay on /q3",
+				driver.getCurrentUrl().contains("/q3"));
+		Assert.assertTrue("Expected error message",
+				driver.getPageSource().contains("Wrong answer, try again."));
 	}
 }
